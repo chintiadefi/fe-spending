@@ -1,0 +1,4 @@
+.container {
+    min-height: calc(100vh - 20vh);
+    @apply bg-white overflow-y-scroll overflow-x-hidden;
+}
