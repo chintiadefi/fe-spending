@@ -6,6 +6,7 @@ import {
 import {Layout, Typography, Button } from 'antd';
 
 import Dashboard from './views/dashboard';
+import Detail from './views/detail';
 import './index.css';
 import styles from './index.module.css';
 
@@ -22,10 +23,8 @@ function App() {
       <div className={styles.container}>
         <BrowserRouter>
           <Routes>
-            <Route
-                  path="/"
-                  element={<Dashboard />}
-                />
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/:id" element={<Detail />} />
           </Routes>
         </BrowserRouter>
       </div>

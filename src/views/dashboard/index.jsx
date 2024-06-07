@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Checkbox, Divider, Typography } from 'antd';
-import styles from './index.module.css';
 import { NavLink } from 'react-router-dom';
 import dayjs from '../utils/moment';
 import { LoadingOutlined } from '@ant-design/icons';
+import styles from './index.module.css';
 
 const { Title, Paragraph } = Typography;
 
@@ -63,7 +63,7 @@ const Dashboard = () => {
     };
 
     return (
-        <div className='m-4'>
+        <div className='my-4 mx-8'>
             <Form className='flex items-end justify-center' form={form} name='filter_jobs' layout='inline' labelWrap onFinish={onFilter}>
                 <Form.Item className={styles['form-item']} name='description' label='Job Description'>
                     <Input placeholder='Filter by title, benefits, companies, expertise' />
@@ -86,7 +86,7 @@ const Dashboard = () => {
                         <>
                             <div className='flex justify-between'>
                                 <div>
-                                    <NavLink><Title className='mt-0 mb-2 text-blue-700' level={4}>{items?.title}</Title></NavLink>
+                                    <NavLink to={`/${items.id}`}><Title className='mt-0 mb-2 text-blue-700' level={4}>{items?.title}</Title></NavLink>
                                     <Paragraph>{items?.company} - <b className='text-green-500'>{items?.type}</b></Paragraph>
                                 </div>
                                 <div>
