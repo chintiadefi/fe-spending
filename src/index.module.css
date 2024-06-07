@@ -2,3 +2,8 @@
     min-height: calc(100vh - 20vh);
     @apply bg-white overflow-y-scroll overflow-x-hidden;
 }
+
+.login div,
+.login span {
+    @apply py-1 px-2 rounded !important;
+}

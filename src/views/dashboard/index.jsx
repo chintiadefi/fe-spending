@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Checkbox, Divider, Typography } from 'antd';
 import { NavLink } from 'react-router-dom';
-import dayjs from '../utils/moment';
+import dayjs from '../../utils/moment';
 import { LoadingOutlined } from '@ant-design/icons';
 import styles from './index.module.css';
 
@@ -83,7 +83,7 @@ const Dashboard = () => {
             {
                 arrayJobList.map((items, index) => {
                     return (
-                        <>
+                        <div key={index}>
                             <div className='flex justify-between'>
                                 <div>
                                     <NavLink to={`/${items.id}`}><Title className='mt-0 mb-2 text-blue-700' level={4}>{items?.title}</Title></NavLink>
@@ -95,7 +95,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             {index !== arrayJobList.length - 1 && <Divider className='mt-1 mb-2' />}
-                        </>
+                        </div>
                     );
                 })
             }
