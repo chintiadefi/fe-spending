@@ -105,7 +105,7 @@ const Dashboard = () => {
                     <LoadingOutlined />
                 </div>
             }
-            {arrayJobList.length % 10 === 0 && <Button className='mt-4 mb-2 w-full' type='primary' onClick={onLoad}>More Jobs</Button>}
+            {(arrayJobList.length % 10 === 0 && arrayJobList.length > 0) && <Button className='mt-4 mb-2 w-full' type='primary' onClick={onLoad}>More Jobs</Button>}
         </div>
     );
 }
