@@ -1,11 +1,1 @@
-.form-item {
-    @apply w-1/5;
-}
 
-.form-item div[class~='ant-row'] {
-    @apply flex flex-col items-start;
-}
-
-.form-item div[class~='ant-form-item-control'] {
-    @apply w-full;
-}
