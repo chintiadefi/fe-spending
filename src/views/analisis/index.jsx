@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Typography, Slider, Row, Col, Button, Popconfirm, notification } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { totalArrayObjectData } from '../../utils/format-text';
@@ -8,40 +9,54 @@ import { kategori } from '../../utils/kategori';
 const { Title } = Typography;
 
 const Analisis = () => {
-    const [data, setData] = useState([]);
+    const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
+    
+    const { data, isLoading } = useQuery({
+        queryKey: ['list'],
+        queryFn: () => axios.get('https://db-spending.glitch.me/spending'),
+      });
 
-    const getData = () => {
-        setLoading(true);
-        axios.get('https://db-spending.glitch.me/spending')
-        .then(response => {
-            setData(response.data);
-          })
-        setLoading(false);
-      }
-  
-      useEffect(() => {
-        getData();
-      }, [])
+    const listSpending = data?.data;
 
-    const resetAll = () => {
-        setLoading(true);
-        for (let i = 0; i < data.length; i++) {
-            axios.delete(`https://db-spending.glitch.me/spending/${data[i].id}`)
-            .then(function (res) {})
-            .catch(function (error) {
-            notification.err({
-                message: 'Gagal me-reset data!'
-            })
-            });
+      const resetData = async (idList) => {
+        const results = [];
+        for (const id of idList) {
+          const response = await axios.delete(`https://db-spending.glitch.me/spending/${id}`);
+          results.push(response.data);
         }
-        setLoading(false);
-    }
+        return results;
+      };
+
+      const { mutate } = useMutation({
+        mutationFn: resetData,
+        onMutate: () => {
+            setLoading(true);
+        },
+        onSuccess: () => {
+            notification.success({
+                message: 'Berhasil me-reset data!'
+            });
+        },
+        onError: () => {
+            notification.error({
+                message: 'Gagal me-reset data!'
+            });
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries('list');
+            setLoading(false);
+          },
+      });
+
+      const resetAll = () => {
+        mutate(listSpending.map((item) => (item.id)));
+      };
 
     return (
         <div>
             {
-            loading ? 
+            isLoading ? 
             <div className='mt-14 flex justify-center'>
                 <LoadingOutlined className='text-7xl' />
             </div>
@@ -50,7 +65,7 @@ const Analisis = () => {
                 <Title>Analisis Pengeluaran</Title>
                 {
                     kategori.map((item, index) => {
-                        const dataPengeluaran = data.filter(itemC => itemC.kategori === item);
+                        const dataPengeluaran = listSpending.filter(itemC => itemC.kategori === item);
                         const presentase = totalArrayObjectData(dataPengeluaran, 'jumlah') / 6000000 * 100;
                         const rounded = Math.round((presentase + Number.EPSILON) * 100) / 100;
                         return (
@@ -78,7 +93,7 @@ const Analisis = () => {
                     cancelText="Batal"
                     onConfirm={resetAll}
                 >
-                    <Button danger>Reset Semua</Button>
+                    <Button danger loading={loading}>Reset Semua</Button>
                 </Popconfirm>
             </div>
             }

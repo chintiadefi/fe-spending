@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { Typography, Table, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import dayjs from '../../utils/moment';
@@ -9,22 +10,14 @@ import { kategori } from '../../utils/kategori';
 const { Title } = Typography;
 
 const List = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const totalPengeluaran = totalArrayObjectData(data, 'jumlah');
+    const { data, isLoading } = useQuery({
+      queryKey: ['list'],
+      queryFn: () => axios.get('https://db-spending.glitch.me/spending'),
+    });
 
-    const getData = () => {
-      setLoading(true);
-      axios.get('https://db-spending.glitch.me/spending')
-      .then(response => {
-          setData(response.data);
-        })
-      setLoading(false);
-    }
+    const listSpending = data?.data;
 
-    useEffect(() => {
-      getData();
-    }, [])
+    const totalPengeluaran = totalArrayObjectData(listSpending, 'jumlah');
 
     const columns = [
         {
@@ -46,7 +39,7 @@ const List = () => {
     return (
         <div>
           {
-            loading ? 
+            isLoading ? 
             <div className='mt-14 flex justify-center'>
               <LoadingOutlined className='text-7xl' />
             </div>
@@ -55,7 +48,7 @@ const List = () => {
               <Title>Daftar Pengeluaran</Title>
               {
                 kategori.map((item, index) => {
-                  const dataPengeluaran = data.filter(itemC => itemC.kategori === item);
+                  const dataPengeluaran = listSpending.filter(itemC => itemC.kategori === item);
                   if (dataPengeluaran.length > 0) return (
                     <div key={index} className='mt-8'>
                       <Title level={2}>{item.charAt(0).toUpperCase() + item.slice(1)}</Title>

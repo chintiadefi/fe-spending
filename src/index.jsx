@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter, Routes, Route, Link
 } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {Layout, Menu } from 'antd';
 
 import List from './views/list';
@@ -55,8 +56,11 @@ const App = () => {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );
