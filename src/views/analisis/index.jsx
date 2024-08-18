@@ -118,10 +118,10 @@ const Analisis = () => {
                 </Button>
               )}
             </PDFDownloadLink>
-            <Paragraph className="mt-1 mb-0">
+          </div>
+          <Paragraph className="mt-1 mb-0">
               Dapat diunduh dari tanggal 25 hingga tanggal 3 setiap bulannya
             </Paragraph>
-          </div>
           <Popconfirm
             className="mt-6 w-1/3"
             title="Reset Semua Data"
