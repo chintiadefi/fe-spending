@@ -102,7 +102,7 @@ const Analisis = () => {
             <PDFDownloadLink
               className="w-full block"
               document={<Report />}
-              fileName="example.pdf"
+              fileName="Laporan Bulanan.pdf"
             >
               {({ blob, url, loading, error }) => (
                 <Button className="w-full" type="primary" loading={loading}>
