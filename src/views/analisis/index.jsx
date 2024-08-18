@@ -11,12 +11,13 @@ import {
   Popconfirm,
   notification,
 } from "antd";
+import dayjs from "../../utils/moment";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { LoadingOutlined } from "@ant-design/icons";
 import { totalArrayObjectData } from "../../utils/format-text";
 import { kategori } from "../../utils/kategori";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const Analisis = () => {
   const queryClient = useQueryClient();
@@ -28,6 +29,8 @@ const Analisis = () => {
   });
 
   const listSpending = data?.data;
+  const date = dayjs(new Date()).date();
+  const availableDownloadReport = date >= 25 || date <= 3;
 
   const resetData = async (idList) => {
     const results = [];
@@ -105,11 +108,19 @@ const Analisis = () => {
               fileName="Laporan Bulanan.pdf"
             >
               {({ blob, url, loading, error }) => (
-                <Button className="w-full" type="primary" loading={loading}>
+                <Button
+                  className="w-full"
+                  type="primary"
+                  loading={loading}
+                  disabled={!availableDownloadReport}
+                >
                   Download Report
                 </Button>
               )}
             </PDFDownloadLink>
+            <Paragraph className="mt-1 mb-0">
+              Dapat diunduh dari tanggal 25 hingga tanggal 3 setiap bulannya
+            </Paragraph>
           </div>
           <Popconfirm
             className="mt-6 w-1/3"
