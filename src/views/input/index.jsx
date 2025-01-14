@@ -87,7 +87,20 @@ const InputC = () => {
           />
         </Form.Item>
         <Form.Item label="Jumlah Pengeluaran (Rp)" name="jumlah" required>
-          <InputNumber className="w-full" />
+          <InputNumber
+            className="w-full"
+            prefix="Rp"
+            min={0}
+            formatter={(value) =>
+              value ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".") : ""
+            }
+            parser={(value) => (value ? value.replace(/Rp\s?|(\.)/g, "") : "")}
+            onKeyPress={(event) => {
+              if (!/[\d]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
         </Form.Item>
         <Form.Item>
           <Button
