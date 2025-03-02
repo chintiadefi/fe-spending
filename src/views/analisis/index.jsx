@@ -65,7 +65,11 @@ const Analisis = () => {
   });
 
   const resetAll = () => {
-    mutate(listSpending.map((item) => item.id));
+    mutate(
+      listSpending
+        .filter((item) => item.kategori !== "budget")
+        .map((item) => item.id)
+    );
   };
 
   return (
@@ -82,7 +86,10 @@ const Analisis = () => {
               (itemC) => itemC.kategori === item
             );
             const presentase =
-              (totalArrayObjectData(dataPengeluaran, "jumlah") / 6000000) * 100;
+              (totalArrayObjectData(dataPengeluaran, "jumlah") /
+                listSpending.find((item) => item.kategori === "budget")
+                  ?.jumlah) *
+              100;
             const rounded =
               Math.round((presentase + Number.EPSILON) * 100) / 100;
             return (
@@ -120,8 +127,8 @@ const Analisis = () => {
             </PDFDownloadLink>
           </div>
           <Paragraph className="mt-1 mb-0">
-              Dapat diunduh dari tanggal 25 hingga tanggal 3 setiap bulannya
-            </Paragraph>
+            Dapat diunduh dari tanggal 25 hingga tanggal 3 setiap bulannya
+          </Paragraph>
           <Popconfirm
             className="mt-6 w-1/3"
             title="Reset Semua Data"

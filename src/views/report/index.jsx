@@ -135,7 +135,10 @@ const Report = () => {
           </Text>
           <Text style={styles.subTitle}>
             Sisa Uang Bulanan:{" "}
-            {formatNumberToRupiah(6000000 - totalPengeluaran)}
+            {formatNumberToRupiah(
+              data.find((item) => item.kategori === "budget")?.jumlah -
+                totalPengeluaran
+            )}
           </Text>
         </View>
       </Page>

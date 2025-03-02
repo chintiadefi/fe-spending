@@ -1,7 +1,9 @@
 export function totalArrayObjectData(arr, key) {
-  return arr?.reduce((total, obj) => {
-    return total + (obj[key] || 0);
-  }, 0);
+  return arr
+    ?.filter((item) => item.kategori !== "budget")
+    .reduce((total, obj) => {
+      return total + (obj[key] || 0);
+    }, 0);
 }
 
 export function formatNumberToRupiah(number) {

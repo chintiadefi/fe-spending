@@ -78,7 +78,10 @@ const List = () => {
           </Title>
           <Title level={2}>
             Sisa Uang Bulanan:{" "}
-            {formatNumberToRupiah(6000000 - totalPengeluaran)}
+            {formatNumberToRupiah(
+              listSpending.find((item) => item.kategori === "budget")?.jumlah -
+                totalPengeluaran
+            )}
           </Title>
         </div>
       )}
